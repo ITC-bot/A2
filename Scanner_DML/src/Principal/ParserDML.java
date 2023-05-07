@@ -13,11 +13,11 @@ import javax.swing.table.*;
 
 public final class ParserDML extends javax.swing.JFrame {
 
-    DefaultTableModel lexica = new DefaultTableModel(), constante = new DefaultTableModel(), identificador = new DefaultTableModel();
+    DefaultTableModel tablaLexica = new DefaultTableModel(), tablaConstantes = new DefaultTableModel(), tablaIdentificadores = new DefaultTableModel();
 
-    HashMap<Integer, String[][]> datos = new HashMap<>();
-    HashMap<String, String> sintactica = new HashMap<>();
-    HashMap<String, String> primero = new HashMap<>();
+    HashMap<Integer, String[][]> tablaDatos = new HashMap<>();
+    HashMap<String, String> tablaSintactica = new HashMap<>();
+    HashMap<String, String> tablaPrimero = new HashMap<>();
     int valorCons = 600, valorIden = 401;
     
     public ParserDML() {
@@ -25,12 +25,23 @@ public final class ParserDML extends javax.swing.JFrame {
         
         this.setLocationRelativeTo(null);
 
-        lexica = (DefaultTableModel) jTable1.getModel();
-        constante = (DefaultTableModel) jTable3.getModel();
-        identificador = (DefaultTableModel) jTable2.getModel();
+        tablaLexica = (DefaultTableModel) jTableLex.getModel();
+        tablaConstantes = (DefaultTableModel) jTableConst.getModel();
+        tablaIdentificadores = (DefaultTableModel) jTableIdent.getModel();
         
-        JTableHeader th = jTable1.getTableHeader();
-        th.setFont(new Font("Arial", Font.PLAIN, 17));
+        
+        
+        JTableHeader headerLex = jTableLex.getTableHeader();
+        headerLex.setFont(new Font("Arial", Font.PLAIN, 17));
+        
+        JTableHeader headerConstantes = jTableConst.getTableHeader();
+        headerConstantes.setFont(new Font("Arial", Font.PLAIN, 17));
+        
+        JTableHeader headerIdentificadores = jTableIdent.getTableHeader();
+        headerIdentificadores.setFont(new Font("Arial", Font.PLAIN, 17));
+        
+        
+        
 
         cargarDatos();
     }
@@ -86,85 +97,85 @@ public final class ParserDML extends javax.swing.JFrame {
         String[][] identificadores = {{"Identificador", "4"},
         {"^\\w+#?$", "400"}};//Puede terminar con #
 
-        datos.put(0, reservadas);
-        datos.put(1, delimitadores);
-        datos.put(2, operadores);
-        datos.put(3, constantes);
-        datos.put(4, relacionales);
-        datos.put(5, identificadores);
+        tablaDatos.put(0, reservadas);
+        tablaDatos.put(1, delimitadores);
+        tablaDatos.put(2, operadores);
+        tablaDatos.put(3, constantes);
+        tablaDatos.put(4, relacionales);
+        tablaDatos.put(5, identificadores);
     }
     
     public void primerosySiguientesDML() {//Datos de la tabla primeros y siguientes del DML
-        primero.put("300", "10");
-        primero.put("301", "4 72");
-        primero.put("302", "4");
-        primero.put("303", "50 99");
-        primero.put("304", "4");
-        primero.put("305", "51 99");
-        primero.put("306", "4");
-        primero.put("307", "50 99");
-        primero.put("308", "4");
-        primero.put("309", "4 99");
-        primero.put("310", "12 99");
-        primero.put("311", "4");
-        primero.put("312", "14 15 99");
-        primero.put("313", "4");
-        primero.put("314", "8 13");
-        primero.put("315", "8");
-        primero.put("316", "4 54 61");
-        primero.put("317", "14 15");
-        primero.put("318", "62");
-        primero.put("319", "61");
+        tablaPrimero.put("300", "10");
+        tablaPrimero.put("301", "4 72");
+        tablaPrimero.put("302", "4");
+        tablaPrimero.put("303", "50 99");
+        tablaPrimero.put("304", "4");
+        tablaPrimero.put("305", "51 99");
+        tablaPrimero.put("306", "4");
+        tablaPrimero.put("307", "50 99");
+        tablaPrimero.put("308", "4");
+        tablaPrimero.put("309", "4 99");
+        tablaPrimero.put("310", "12 99");
+        tablaPrimero.put("311", "4");
+        tablaPrimero.put("312", "14 15 99");
+        tablaPrimero.put("313", "4");
+        tablaPrimero.put("314", "8 13");
+        tablaPrimero.put("315", "8");
+        tablaPrimero.put("316", "4 54 61");
+        tablaPrimero.put("317", "14 15");
+        tablaPrimero.put("318", "62");
+        tablaPrimero.put("319", "61");
     }
    
     public void datosTablaSintacticaDML() {//Datos de la tabla sintáctica del DML
-        sintactica.put("300 10", "10 301 11 306 310");
-        sintactica.put("301 4", "302");
-        sintactica.put("301 72", "72");
-        sintactica.put("302 4", "304 303");
-        sintactica.put("303 11", "99");
-        sintactica.put("303 50", "50 302");
-        sintactica.put("303 199", "99");
-        sintactica.put("304 4", "4 305");
-        sintactica.put("305 8", "99");
-        sintactica.put("305 11", "99");
-        sintactica.put("305 13", "99");
-        sintactica.put("305 14", "99");
-        sintactica.put("305 15", "99");
-        sintactica.put("305 50", "99");
-        sintactica.put("305 51", "51 4");
-        sintactica.put("305 53", "99");
-        sintactica.put("305 199", "99");
-        sintactica.put("306 4", "308 307");
-        sintactica.put("307 12", "99");
-        sintactica.put("307 50", "50 306");
-        sintactica.put("307 53", "99");
-        sintactica.put("307 199", "99");
-        sintactica.put("308 4", "4 309");
-        sintactica.put("309 4", "4");
-        sintactica.put("309 12", "99");
-        sintactica.put("309 50", "99");
-        sintactica.put("309 53", "99");
-        sintactica.put("309 199", "99");
-        sintactica.put("310 12", "12 311");
-        sintactica.put("310 53", "99");
-        sintactica.put("310 199", "99");
-        sintactica.put("311 4", "313 312");
-        sintactica.put("312 14", "317 311");
-        sintactica.put("312 15", "317 311");
-        sintactica.put("312 53", "99");
-        sintactica.put("312 199", "99");
-        sintactica.put("313 4", "304 314");
-        sintactica.put("314 8", "315 316");
-        sintactica.put("314 13", "13 52 300 53");
-        sintactica.put("315 8", "8");
-        sintactica.put("316 4", "304");
-        sintactica.put("316 54", "54 318 54");
-        sintactica.put("316 61", "319");
-        sintactica.put("317 14", "14");
-        sintactica.put("317 15", "15");
-        sintactica.put("318 62", "62");
-        sintactica.put("319 61", "61");
+        tablaSintactica.put("300 10", "10 301 11 306 310");
+        tablaSintactica.put("301 4", "302");
+        tablaSintactica.put("301 72", "72");
+        tablaSintactica.put("302 4", "304 303");
+        tablaSintactica.put("303 11", "99");
+        tablaSintactica.put("303 50", "50 302");
+        tablaSintactica.put("303 199", "99");
+        tablaSintactica.put("304 4", "4 305");
+        tablaSintactica.put("305 8", "99");
+        tablaSintactica.put("305 11", "99");
+        tablaSintactica.put("305 13", "99");
+        tablaSintactica.put("305 14", "99");
+        tablaSintactica.put("305 15", "99");
+        tablaSintactica.put("305 50", "99");
+        tablaSintactica.put("305 51", "51 4");
+        tablaSintactica.put("305 53", "99");
+        tablaSintactica.put("305 199", "99");
+        tablaSintactica.put("306 4", "308 307");
+        tablaSintactica.put("307 12", "99");
+        tablaSintactica.put("307 50", "50 306");
+        tablaSintactica.put("307 53", "99");
+        tablaSintactica.put("307 199", "99");
+        tablaSintactica.put("308 4", "4 309");
+        tablaSintactica.put("309 4", "4");
+        tablaSintactica.put("309 12", "99");
+        tablaSintactica.put("309 50", "99");
+        tablaSintactica.put("309 53", "99");
+        tablaSintactica.put("309 199", "99");
+        tablaSintactica.put("310 12", "12 311");
+        tablaSintactica.put("310 53", "99");
+        tablaSintactica.put("310 199", "99");
+        tablaSintactica.put("311 4", "313 312");
+        tablaSintactica.put("312 14", "317 311");
+        tablaSintactica.put("312 15", "317 311");
+        tablaSintactica.put("312 53", "99");
+        tablaSintactica.put("312 199", "99");
+        tablaSintactica.put("313 4", "304 314");
+        tablaSintactica.put("314 8", "315 316");
+        tablaSintactica.put("314 13", "13 52 300 53");
+        tablaSintactica.put("315 8", "8");
+        tablaSintactica.put("316 4", "304");
+        tablaSintactica.put("316 54", "54 318 54");
+        tablaSintactica.put("316 61", "319");
+        tablaSintactica.put("317 14", "14");
+        tablaSintactica.put("317 15", "15");
+        tablaSintactica.put("318 62", "62");
+        tablaSintactica.put("319 61", "61");
     }
  
     public void validarSintaxis() {
@@ -174,60 +185,60 @@ public final class ParserDML extends javax.swing.JFrame {
 
         pila.put(0, "199");
         
-        if(jTable1.getValueAt(apuntador, 2).toString().equals("SELECT")){//Se pregunta si empieza con el SELECT para usar la tabla sintáctica y de primeros y siguientes del DML
+        if(jTableLex.getValueAt(apuntador, 2).toString().equals("SELECT")){//Se pregunta si empieza con el SELECT para usar la tabla sintáctica y de primeros y siguientes del DML
             pila.put(1, "300");
             datosTablaSintacticaDML();
             primerosySiguientesDML();
         }
         
-        lexica.addRow(new Object[]{"", "", "$", "9", "199"});
+        tablaLexica.addRow(new Object[]{"", "", "$", "9", "199"});
         do {
             x = pila.get(pila.size() - 1);
             pila.remove(pila.size() - 1);
             contadorPila--;
             //Se almacena en k el valor de las palabras pertenecientes a la sentencia SQL
-            if (Integer.parseInt(jTable1.getValueAt(apuntador, 4).toString()) > 80 && Integer.parseInt(jTable1.getValueAt(apuntador, 4).toString()) < 86) {
+            if (Integer.parseInt(jTableLex.getValueAt(apuntador, 4).toString()) > 80 && Integer.parseInt(jTableLex.getValueAt(apuntador, 4).toString()) < 86) {
                 k = "8";
-            } else if (Integer.parseInt(jTable1.getValueAt(apuntador, 4).toString()) > 400 && Integer.parseInt(jTable1.getValueAt(apuntador, 4).toString()) < 600) {
+            } else if (Integer.parseInt(jTableLex.getValueAt(apuntador, 4).toString()) > 400 && Integer.parseInt(jTableLex.getValueAt(apuntador, 4).toString()) < 600) {
                 k = "4";
-            } else if (Integer.parseInt(jTable1.getValueAt(apuntador, 3).toString()) == 6) {
-                for (int i = 0; i < jTable3.getRowCount(); i++) {
-                    if (Integer.parseInt(jTable1.getValueAt(apuntador, 4).toString()) == Integer.parseInt(jTable3.getValueAt(i, 3).toString())) {//Si se encuentra se retorna el valor que tiene
-                        k = jTable3.getValueAt(i, 2).toString();
+            } else if (Integer.parseInt(jTableLex.getValueAt(apuntador, 3).toString()) == 6) {
+                for (int i = 0; i < jTableConst.getRowCount(); i++) {
+                    if (Integer.parseInt(jTableLex.getValueAt(apuntador, 4).toString()) == Integer.parseInt(jTableConst.getValueAt(i, 3).toString())) {//Si se encuentra se retorna el valor que tiene
+                        k = jTableConst.getValueAt(i, 2).toString();
                         break;
                     }
                 }
             } else {
-                k = jTable1.getValueAt(apuntador, 4).toString();
+                k = jTableLex.getValueAt(apuntador, 4).toString();
             }
             if (Integer.parseInt(x) < 100 || x.equals("199")) {//Si el valor que esta en x es terminal o igual a $
                 if (x.equals(k)) {//Si x y k son iguales
                     apuntador++;
                 } else {//En caso de no ser iguales muestra el error
-                    jTextArea1.setText(error(jTable1.getValueAt(apuntador - 1, 1).toString(),x));
+                    JtaSalidaErrores.setText(error(jTableLex.getValueAt(apuntador - 1, 1).toString(),x));
                     break;
                 }
             } else {
-                if (sintactica.containsKey(x + " " + k)) {//Se pregunta si existe la intersección de x y k en la tabla sintáctica
-                    if (!sintactica.get(x + " " + k).equals("99")) {//En caso de existir intersección se pregunta si es diferente de cadena vacia
-                        String produccion[] = sintactica.get(x + " " + k).split(" ");
+                if (tablaSintactica.containsKey(x + " " + k)) {//Se pregunta si existe la intersección de x y k en la tabla sintáctica
+                    if (!tablaSintactica.get(x + " " + k).equals("99")) {//En caso de existir intersección se pregunta si es diferente de cadena vacia
+                        String produccion[] = tablaSintactica.get(x + " " + k).split(" ");
                         for (int i = produccion.length - 1; i >= 0; i--) {//En caso de ser diferente de cadena vacia se guarda el producto en la pila de forma inversa
                             pila.put(contadorPila++, produccion[i]);
                         }
                     }
                 } else {//En caso de no existir la interacción muestra el error
-                    jTextArea1.setText(error(jTable1.getValueAt(apuntador - 1, 1).toString(),x));
+                    JtaSalidaErrores.setText(error(jTableLex.getValueAt(apuntador - 1, 1).toString(),x));
                     break;
                 }
             }
         } while (!x.equals("199"));
-        lexica.removeRow(lexica.getRowCount() - 1);
+        tablaLexica.removeRow(tablaLexica.getRowCount() - 1);
     }
 
     public String error(String linea,String x) {
         String tipo;
         if (Integer.parseInt(x) > 100) {//Si x es una regla se extraen los valores primeros de la tabla primeros y siguientes          
-            tipo = tipoDeError(primero.get(x));
+            tipo = tipoDeError(tablaPrimero.get(x));
         } else {
             tipo = tipoDeError(x);
         }
@@ -261,10 +272,10 @@ public final class ParserDML extends javax.swing.JFrame {
     public String tipoDeError(String palabra) {//Se busca que tipo de error fue el que se encontró
         String primeros[] = palabra.split(" ");
         for (String primero1 : primeros) {
-            for (int j = 0; j < datos.size(); j++) {
-                for (String[] get : datos.get(j)) {
+            for (int j = 0; j < tablaDatos.size(); j++) {
+                for (String[] get : tablaDatos.get(j)) {
                     if (get[1].equals(primero1)) {
-                        return "Se esperaba " + datos.get(j)[0][0];
+                        return "Se esperaba " + tablaDatos.get(j)[0][0];
                     }
                 }
             }
@@ -274,48 +285,48 @@ public final class ParserDML extends javax.swing.JFrame {
 
     public void tablaLexica() {
         Pattern patron = Pattern.compile("'[\\w ]+'?|\\w+#?|,|\\.|\\(|\\)|[+]|-|[*]|/|\\d+|=|[>][=]?|[<][=]?|\\W|\\n");
-        Matcher matcher = patron.matcher(txtACode.getText());
-        Pattern clasificacion;
-        Matcher matcher2;
+        Matcher sentenciaReconocer = patron.matcher(txtACode.getText());
+        Pattern sentenciaClasificacion;
+        Matcher clasificarLex;
         int contador = 1, linea = 1;
-        boolean ban = false, error = false;
+        boolean clasificado = false, error = false;
 
-        while (matcher.find()) {
-            if (matcher.group().matches("\\n")) {
+        while (sentenciaReconocer.find()) {
+            if (sentenciaReconocer.group().matches("\\n")) {
                 linea++;
-            } else if (!matcher.group().matches("'[\\w+ ]+'?|\\w+#?|,|\\.|\\(|\\)|[+]|-|[*]|/|\\d+|=|[>][=]?|[<][=]?| |;|\\n")) {
+            } else if (!sentenciaReconocer.group().matches("'[\\w+ ]+'?|\\w+#?|,|\\.|\\(|\\)|[+]|-|[*]|/|\\d+|=|[>][=]?|[<][=]?| |;|\\n")) {
                 error = true;
                 break;
             } else {
-                for (int i = 0; i < datos.size(); i++) {
-                    for (int y = 1; y < datos.get(i).length; y++) {
-                        clasificacion = Pattern.compile(datos.get(i)[y][0]);
-                        matcher2 = clasificacion.matcher(matcher.group().replace(" ", ""));
-                        if (matcher2.matches()) {
-                            switch (datos.get(i)[0][0]) {
+                for (int i = 0; i < tablaDatos.size(); i++) {
+                    for (int y = 1; y < tablaDatos.get(i).length; y++) {
+                        sentenciaClasificacion = Pattern.compile(tablaDatos.get(i)[y][0]);
+                        clasificarLex = sentenciaClasificacion.matcher(sentenciaReconocer.group().replace(" ", ""));
+                        if (clasificarLex.matches()) {
+                            switch (tablaDatos.get(i)[0][0]) {
                                 case "Constante":
-                                    if (matcher.group().matches("^\\d+$")) {
-                                        lexica.addRow(new Object[]{contador++, linea, matcher.group(), datos.get(i)[0][1], tablaConstante(contador - 1, matcher.group().replace("'", ""), Integer.parseInt(datos.get(i)[y][1]))});
+                                    if (sentenciaReconocer.group().matches("^\\d+$")) {
+                                        tablaLexica.addRow(new Object[]{contador++, linea, sentenciaReconocer.group(), tablaDatos.get(i)[0][1], tablaConstante(contador - 1, sentenciaReconocer.group().replace("'", ""), Integer.parseInt(tablaDatos.get(i)[y][1]))});
                                     } else {
-                                        lexica.addRow(new Object[]{contador++, linea, "'", 5, 54});
-                                        lexica.addRow(new Object[]{contador++, linea, "CONSTANTE", datos.get(i)[0][1], tablaConstante(contador - 1, matcher.group().replace("'", ""), Integer.parseInt(datos.get(i)[y][1]))});
-                                        if ("'".equals(String.valueOf(matcher.group().charAt(matcher.group().length() - 1)))) {
-                                            lexica.addRow(new Object[]{contador++, linea, "'", 5, 54});
+                                        tablaLexica.addRow(new Object[]{contador++, linea, "'", 5, 54});
+                                        tablaLexica.addRow(new Object[]{contador++, linea, "CONSTANTE", tablaDatos.get(i)[0][1], tablaConstante(contador - 1, sentenciaReconocer.group().replace("'", ""), Integer.parseInt(tablaDatos.get(i)[y][1]))});
+                                        if ("'".equals(String.valueOf(sentenciaReconocer.group().charAt(sentenciaReconocer.group().length() - 1)))) {
+                                            tablaLexica.addRow(new Object[]{contador++, linea, "'", 5, 54});
                                         }
                                     }   break;
                                 case "Identificador":
-                                    lexica.addRow(new Object[]{contador++, linea, matcher.group(), datos.get(i)[0][1], tablaIdentificador(matcher.group(), linea)});
+                                    tablaLexica.addRow(new Object[]{contador++, linea, sentenciaReconocer.group(), tablaDatos.get(i)[0][1], tablaIdentificador(sentenciaReconocer.group(), linea)});
                                     break;
                                 default:
-                                    lexica.addRow(new Object[]{contador++, linea, matcher.group(), datos.get(i)[0][1], datos.get(i)[y][1]});
+                                    tablaLexica.addRow(new Object[]{contador++, linea, sentenciaReconocer.group(), tablaDatos.get(i)[0][1], tablaDatos.get(i)[y][1]});
                                     break;
                             }
-                            ban = true;
+                            clasificado = true;
                             break;
                         }
                     }
-                    if (ban) {
-                        ban = false;
+                    if (clasificado) {
+                        clasificado = false;
                         break;
                     }
 
@@ -325,45 +336,45 @@ public final class ParserDML extends javax.swing.JFrame {
         }
 
         if (error) {
-            jTextArea1.setText("Error| 1:101 Línea " + linea + " simbolo " + matcher.group() + " desconocido.");
+            JtaSalidaErrores.setText("Error| 1:101 Línea " + linea + " simbolo " + sentenciaReconocer.group() + " desconocido.");
             reiniciar();
         } else {
-            jTextArea1.setText("--Analisis Léxico Finalizado--\n");
+            JtaSalidaErrores.setText("1:100 Sin error.");
             validarSintaxis();//Se llama a la función que que verifica la sintaxis
         }
 
     }
-
+    
     public int tablaConstante(int num, String palabra, int tipo) {
-        for (int i = 0; i < jTable3.getRowCount(); i++) {
-            if (palabra.equals(jTable3.getValueAt(i, 1).toString())) {
-                return Integer.parseInt(jTable3.getValueAt(i, 3).toString());
+        for (int i = 0; i < jTableConst.getRowCount(); i++) {
+            if (palabra.equals(jTableConst.getValueAt(i, 1).toString())) {
+                return Integer.parseInt(jTableConst.getValueAt(i, 3).toString());
             }
         }
-        constante.addRow(new Object[]{num, palabra, tipo, valorCons++});
+        tablaConstantes.addRow(new Object[]{num, palabra, tipo, valorCons++});
         return valorCons - 1;
     }
 
     public int tablaIdentificador(String palabra, int linea) {
         String[] parts;
-        for (int i = 0; i < jTable2.getRowCount(); i++) {
-            if (palabra.equals(jTable2.getValueAt(i, 0).toString())) {
-                parts = jTable2.getValueAt(i, 2).toString().split(", ");
+        for (int i = 0; i < jTableIdent.getRowCount(); i++) {
+            if (palabra.equals(jTableIdent.getValueAt(i, 0).toString())) {
+                parts = jTableIdent.getValueAt(i, 2).toString().split(", ");
                 if (Integer.parseInt(parts[parts.length - 1]) != linea) {
-                    jTable2.setValueAt(jTable2.getValueAt(i, 2).toString() + ", " + linea, i, 2);
+                    jTableIdent.setValueAt(jTableIdent.getValueAt(i, 2).toString() + ", " + linea, i, 2);
                 }
-                return Integer.parseInt(jTable2.getValueAt(i, 1).toString());
+                return Integer.parseInt(jTableIdent.getValueAt(i, 1).toString());
             }
         }
 
-        identificador.addRow(new Object[]{palabra, valorIden++, linea});
+        tablaIdentificadores.addRow(new Object[]{palabra, valorIden++, linea});
         return valorIden - 1;
     }
     
     public void reiniciar(){
-        lexica.setRowCount(0);
-        constante.setRowCount(0);
-        identificador.setRowCount(0);
+        tablaLexica.setRowCount(0);
+        tablaConstantes.setRowCount(0);
+        tablaIdentificadores.setRowCount(0);
         valorCons = 600;
         valorIden = 401;
     }
@@ -377,43 +388,47 @@ public final class ParserDML extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jspTextEntrada = new javax.swing.JScrollPane();
         txtACode = new javax.swing.JTextArea();
         lbl1 = new javax.swing.JLabel();
         lbl2 = new javax.swing.JLabel();
         btnAnalizar = new javax.swing.JButton();
         btnReiniciar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jtbpTablas = new javax.swing.JTabbedPane();
+        jpLexicas = new javax.swing.JPanel();
+        jspLex = new javax.swing.JScrollPane();
+        jTableLex = new javax.swing.JTable();
+        jpIdents = new javax.swing.JPanel();
+        jspIdents = new javax.swing.JScrollPane();
+        jTableIdent = new javax.swing.JTable();
+        jpConst = new javax.swing.JPanel();
+        jspConst = new javax.swing.JScrollPane();
+        jTableConst = new javax.swing.JTable();
+        jspSalida = new javax.swing.JScrollPane();
+        JtaSalidaErrores = new javax.swing.JTextArea();
+        jlbErrores = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        txtACode.setBackground(new java.awt.Color(255, 255, 204));
         txtACode.setColumns(20);
+        txtACode.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
         txtACode.setRows(5);
-        jScrollPane1.setViewportView(txtACode);
+        jspTextEntrada.setViewportView(txtACode);
 
-        lbl1.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        lbl1.setText("Escriba el código en el recuadro presentado a continuación.");
+        lbl1.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        lbl1.setText(" Por favor, ingrese su consulta SQL en el campo designado a continuación.");
         lbl1.setToolTipText("");
         lbl1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
 
-        lbl2.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        lbl2.setText("Posteriormente, presione el botón analizar.");
+        lbl2.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        lbl2.setText("Después, por favor proceda a presionar el botón \"Realizar Analisis\".");
         lbl2.setToolTipText("");
         lbl2.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
 
         btnAnalizar.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnAnalizar.setText("Analizar");
+        btnAnalizar.setText("Realizar Analisis");
         btnAnalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAnalizarActionPerformed(evt);
@@ -436,8 +451,11 @@ public final class ParserDML extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtbpTablas.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+
+        jTableLex.setBackground(new java.awt.Color(255, 255, 204));
+        jTableLex.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        jTableLex.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -453,40 +471,44 @@ public final class ParserDML extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setResizingAllowed(false);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane2.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(50);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(1).setMaxWidth(60);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(3).setMaxWidth(60);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(4).setMaxWidth(80);
+        jTableLex.setInheritsPopupMenu(true);
+        jTableLex.setShowGrid(true);
+        jTableLex.getTableHeader().setResizingAllowed(false);
+        jTableLex.getTableHeader().setReorderingAllowed(false);
+        jspLex.setViewportView(jTableLex);
+        if (jTableLex.getColumnModel().getColumnCount() > 0) {
+            jTableLex.getColumnModel().getColumn(0).setPreferredWidth(50);
+            jTableLex.getColumnModel().getColumn(0).setMaxWidth(50);
+            jTableLex.getColumnModel().getColumn(1).setPreferredWidth(60);
+            jTableLex.getColumnModel().getColumn(1).setMaxWidth(60);
+            jTableLex.getColumnModel().getColumn(3).setPreferredWidth(60);
+            jTableLex.getColumnModel().getColumn(3).setMaxWidth(60);
+            jTableLex.getColumnModel().getColumn(4).setPreferredWidth(80);
+            jTableLex.getColumnModel().getColumn(4).setMaxWidth(80);
         }
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout jpLexicasLayout = new javax.swing.GroupLayout(jpLexicas);
+        jpLexicas.setLayout(jpLexicasLayout);
+        jpLexicasLayout.setHorizontalGroup(
+            jpLexicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpLexicasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jspLex, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jpLexicasLayout.setVerticalGroup(
+            jpLexicasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpLexicasLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jspLex, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Table Léxica", jPanel1);
+        jtbpTablas.addTab("Tabla Léxica", jpLexicas);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jTableIdent.setBackground(new java.awt.Color(255, 255, 204));
+        jTableIdent.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        jTableIdent.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -502,11 +524,34 @@ public final class ParserDML extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable2.getTableHeader().setResizingAllowed(false);
-        jTable2.getTableHeader().setReorderingAllowed(false);
-        jScrollPane3.setViewportView(jTable2);
+        jTableIdent.setSelectionBackground(new java.awt.Color(204, 204, 255));
+        jTableIdent.setShowGrid(true);
+        jTableIdent.getTableHeader().setResizingAllowed(false);
+        jTableIdent.getTableHeader().setReorderingAllowed(false);
+        jspIdents.setViewportView(jTableIdent);
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        javax.swing.GroupLayout jpIdentsLayout = new javax.swing.GroupLayout(jpIdents);
+        jpIdents.setLayout(jpIdentsLayout);
+        jpIdentsLayout.setHorizontalGroup(
+            jpIdentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpIdentsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jspIdents, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jpIdentsLayout.setVerticalGroup(
+            jpIdentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpIdentsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jspIdents, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jtbpTablas.addTab("Tabla Identificadores", jpIdents);
+
+        jTableConst.setBackground(new java.awt.Color(255, 255, 204));
+        jTableConst.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        jTableConst.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -522,37 +567,39 @@ public final class ParserDML extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable3.getTableHeader().setResizingAllowed(false);
-        jTable3.getTableHeader().setReorderingAllowed(false);
-        jScrollPane4.setViewportView(jTable3);
+        jTableConst.setShowGrid(true);
+        jTableConst.getTableHeader().setResizingAllowed(false);
+        jTableConst.getTableHeader().setReorderingAllowed(false);
+        jspConst.setViewportView(jTableConst);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout jpConstLayout = new javax.swing.GroupLayout(jpConst);
+        jpConst.setLayout(jpConstLayout);
+        jpConstLayout.setHorizontalGroup(
+            jpConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpConstLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jspConst, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        jpConstLayout.setVerticalGroup(
+            jpConstLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jpConstLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
+                .addComponent(jspConst, javax.swing.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Tabla Dinamica", jPanel2);
+        jtbpTablas.addTab("Tabla Constantes", jpConst);
 
-        jTextArea1.setEditable(false);
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane5.setViewportView(jTextArea1);
+        JtaSalidaErrores.setEditable(false);
+        JtaSalidaErrores.setColumns(20);
+        JtaSalidaErrores.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        JtaSalidaErrores.setForeground(new java.awt.Color(51, 51, 51));
+        JtaSalidaErrores.setRows(5);
+        jspSalida.setViewportView(JtaSalidaErrores);
+
+        jlbErrores.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
+        jlbErrores.setText("Modulo de errores");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -561,49 +608,57 @@ public final class ParserDML extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jspTextEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jtbpTablas)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl2)
-                            .addComponent(lbl1))
+                            .addComponent(lbl1)
+                            .addComponent(lbl2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(34, 34, 34)
+                        .addComponent(btnReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jlbErrores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTabbedPane1)))
-                .addContainerGap())
+                        .addComponent(jspSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 908, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lbl1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lbl2))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addContainerGap()
+                        .addComponent(lbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbl2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1)
-                    .addComponent(jTabbedPane1))
+                    .addComponent(jspTextEntrada)
+                    .addComponent(jtbpTablas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(33, 33, 33)
-                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jspSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(btnSalir, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jlbErrores, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15))))
         );
 
         pack();
@@ -620,7 +675,7 @@ public final class ParserDML extends javax.swing.JFrame {
     private void btnReiniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReiniciarActionPerformed
         reiniciar();
         txtACode.setText("");
-        jTextArea1.setText("");
+        JtaSalidaErrores.setText("");
     }//GEN-LAST:event_btnReiniciarActionPerformed
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -658,29 +713,29 @@ public final class ParserDML extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ParserDML().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new ParserDML().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea JtaSalidaErrores;
     private javax.swing.JButton btnAnalizar;
     private javax.swing.JButton btnReiniciar;
     private javax.swing.JButton btnSalir;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTable jTableConst;
+    private javax.swing.JTable jTableIdent;
+    private javax.swing.JTable jTableLex;
+    private javax.swing.JLabel jlbErrores;
+    private javax.swing.JPanel jpConst;
+    private javax.swing.JPanel jpIdents;
+    private javax.swing.JPanel jpLexicas;
+    private javax.swing.JScrollPane jspConst;
+    private javax.swing.JScrollPane jspIdents;
+    private javax.swing.JScrollPane jspLex;
+    private javax.swing.JScrollPane jspSalida;
+    private javax.swing.JScrollPane jspTextEntrada;
+    private javax.swing.JTabbedPane jtbpTablas;
     private javax.swing.JLabel lbl1;
     private javax.swing.JLabel lbl2;
     private javax.swing.JTextArea txtACode;
