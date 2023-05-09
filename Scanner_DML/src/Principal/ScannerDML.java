@@ -180,21 +180,26 @@ public final class ScannerDML extends javax.swing.JFrame {
         HashMap<Integer, String> pila = new HashMap<>();
         String x, k = "";
         int apuntador = 0, contadorPila = 2;
-
+        
+        // Se inicializa la pila con el símbolo inicial 199
         pila.put(0, "199");
         
+        // Si la primera palabra de la sentencia es "SELECT", se usa la tabla sintáctica y los primeros y siguientes del DML
         if(jTableLex.getValueAt(apuntador, 2).toString().equals("SELECT")){//Se pregunta si empieza con el SELECT para usar la tabla sintáctica y de primeros y siguientes del DML
             pila.put(1, "300");
             datosTablaSintacticaDML();
             primerosySiguientesDML();
         }
         
+        // Se agrega una fila vacía a la tabla léxica con el símbolo $ y el valor 9
         tablaLexica.addRow(new Object[]{"", "", "$", "9", "199"});
         x = pila.get(pila.size() - 1);
+        
+        // Se inicia un ciclo que se ejecutará mientras el símbolo en la cima de la pila no sea el símbolo final $
         while (!x.equals("199")) {
             pila.remove(pila.size() - 1);
             contadorPila--;
-            //Se almacena en k el valor de las palabras pertenecientes a la sentencia SQL
+            // Se almacena en k el valor de las palabras pertenecientes a la sentencia SQL
             if (Integer.parseInt(jTableLex.getValueAt(apuntador, 4).toString()) > 80 && Integer.parseInt(jTableLex.getValueAt(apuntador, 4).toString()) < 86) {
                 k = "8";
             } else if (Integer.parseInt(jTableLex.getValueAt(apuntador, 4).toString()) > 400 && Integer.parseInt(jTableLex.getValueAt(apuntador, 4).toString()) < 600) {
@@ -202,6 +207,7 @@ public final class ScannerDML extends javax.swing.JFrame {
             } else if (Integer.parseInt(jTableLex.getValueAt(apuntador, 3).toString()) == 6) {
                 for (int i = 0; i < jTableConst.getRowCount(); i++) {
                     if (Integer.parseInt(jTableLex.getValueAt(apuntador, 4).toString()) == Integer.parseInt(jTableConst.getValueAt(i, 3).toString())) {//Si se encuentra se retorna el valor que tiene
+                        // Si se encuentra la constante, se almacena su valor
                         k = jTableConst.getValueAt(i, 2).toString();
                         break;
                     }
@@ -217,7 +223,7 @@ public final class ScannerDML extends javax.swing.JFrame {
                     break;
                 }
             } else {
-                if (tablaSintactica.containsKey(x + " " + k)) {//Se pregunta si existe la intersección de x y k en la tabla sintáctica
+                if (tablaSintactica.containsKey(x + " " + k)) {//Se decide existe la intersección de x y k en la tabla sintáctica
                     if (!tablaSintactica.get(x + " " + k).equals("99")) {//En caso de existir intersección se pregunta si es diferente de cadena vacia
                         String produccion[] = tablaSintactica.get(x + " " + k).split(" ");
                         for (int i = produccion.length - 1; i >= 0; i--) {//En caso de ser diferente de cadena vacia se guarda el producto en la pila de forma inversa
@@ -283,39 +289,51 @@ public final class ScannerDML extends javax.swing.JFrame {
     }
 
     public void tablaLexica() {
+        // Se define la expresión regular para reconocer los tokens
         Pattern reconocimiento = Pattern.compile("'[\\w ]+'?|\\w+#?|,|\\.|\\(|\\)|[+]|-|[*]|/|\\d+|=|[>][=]?|[<][=]?|\\W|\\n");
+        
+        // Se crea un matcher para buscar los tokens en el código fuente
         Matcher sentenciaReconocer = reconocimiento.matcher(txtACode.getText());
+        
+        // Se definen variables para clasificar los tokens y llevar la cuenta de la línea actual
         Pattern sentenciaClasificacion;
         Matcher clasificarLex;
         int contador = 1, linea = 1;
+        
+        // Se definen banderas para detectar errores y si un token ha sido clasificado
         boolean clasificado = false, error = false;
-
+        
+        // Se itera sobre el texto del código fuente buscando tokens
         while (sentenciaReconocer.find()) {
             if (sentenciaReconocer.group().matches("\\n")) {
                 linea++;
-            } else if (!sentenciaReconocer.group().matches("'[\\w+ ]+'?|\\w+#?|,|\\.|\\(|\\)|[+]|-|[*]|/|\\d+|=|[>][=]?|[<][=]?| |;|\\n")) {
+            } else if (!sentenciaReconocer.group().matches("(['\\w\\s]+|[#\\w]+|[-+*/]|[<>=]=?|[^\\w\\s])|([\\n.,();])")) {
                 error = true;
                 break;
             } else {
+                // Se itera a través de cada sentencia reconocida por el analizador léxico
                 for (int i = 0; i < tablaDatos.size(); i++) {
                     for (int y = 1; y < tablaDatos.get(i).length; y++) {
                         sentenciaClasificacion = Pattern.compile(tablaDatos.get(i)[y][0]);
                         clasificarLex = sentenciaClasificacion.matcher(sentenciaReconocer.group().replace(" ", ""));
                         if (clasificarLex.matches()) {
+                            // Se usa un switch para manejar diferentes tipos de tokens y agregarlos a la tabla léxica
                             switch (tablaDatos.get(i)[0][0]) {
                                 case "Identificador":
                                     tablaLexica.addRow(new Object[]{contador++, linea, sentenciaReconocer.group(), tablaDatos.get(i)[0][1], tablaIdentificador(sentenciaReconocer.group(), linea)});
                                     break;
                                 case "Constante":
-                                    if (sentenciaReconocer.group().matches("^\\d+$")) {
-                                        tablaLexica.addRow(new Object[]{contador++, linea, sentenciaReconocer.group(), tablaDatos.get(i)[0][1], tablaConstante(contador - 1, sentenciaReconocer.group().replace("'", ""), Integer.parseInt(tablaDatos.get(i)[y][1]))});
-                                    } else {
-                                        tablaLexica.addRow(new Object[]{contador++, linea, "'", 5, 54});
-                                        tablaLexica.addRow(new Object[]{contador++, linea, "CONSTANTE", tablaDatos.get(i)[0][1], tablaConstante(contador - 1, sentenciaReconocer.group().replace("'", ""), Integer.parseInt(tablaDatos.get(i)[y][1]))});
-                                        if ("'".equals(String.valueOf(sentenciaReconocer.group().charAt(sentenciaReconocer.group().length() - 1)))) {
-                                            tablaLexica.addRow(new Object[]{contador++, linea, "'", 5, 54});
-                                        }
-                                    }   break;
+                                     if (!sentenciaReconocer.group().matches("^\\d{1,}$")) {//Si la sentencia no es un número entero
+                                         tablaLexica.addRow(new Object[]{contador++, linea, "'", 5, 54});//Agrega una nueva fila a la tabla léxica indicando que se encontró una comilla simple incorrecta
+                                         tablaLexica.addRow(new Object[]{contador++, linea, "CONSTANTE", tablaDatos.get(i)[0][1], tablaConstante(contador - 1, sentenciaReconocer.group().replace("'", ""), Integer.parseInt(tablaDatos.get(i)[y][1]))});  //Agrega una nueva fila a la tabla léxica con información sobre la constante encontrada
+                                         if ("'".equals(String.valueOf(sentenciaReconocer.group().charAt(sentenciaReconocer.group().length() - 1)))) { //Agrega una nueva fila a la tabla léxica indicando que se encontró otra comilla simple incorrecta
+                                             tablaLexica.addRow(new Object[]{contador++, linea, "'", 5, 54});
+                                         }
+                                     } else {
+                                         tablaLexica.addRow(new Object[]{contador++, linea, sentenciaReconocer.group(), tablaDatos.get(i)[0][1], tablaConstante(contador - 1, sentenciaReconocer.group().replace("'", ""), Integer.parseInt(tablaDatos.get(i)[y][1]))}); //Agrega una nueva fila a la tabla léxica indicando que se encontró otra comilla simple incorrecta
+                                     }
+break;
+
                                 default:
                                     tablaLexica.addRow(new Object[]{contador++, linea, sentenciaReconocer.group(), tablaDatos.get(i)[0][1], tablaDatos.get(i)[y][1]});
                                     break;
@@ -328,10 +346,8 @@ public final class ScannerDML extends javax.swing.JFrame {
                         clasificado = false;
                         break;
                     }
-
                 }
             }
-
         }
 
         if (error) {
@@ -365,7 +381,6 @@ public final class ScannerDML extends javax.swing.JFrame {
                 return Integer.parseInt(jTableIdent.getValueAt(i, 1).toString());
             }
         }
-
         tablaIdentificadores.addRow(new Object[]{palabra, valorIden++, linea});
         return valorIden - 1;
     }
@@ -416,16 +431,16 @@ public final class ScannerDML extends javax.swing.JFrame {
         jspTextEntrada.setViewportView(txtACode);
 
         lbl1.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
-        lbl1.setText(" Por favor, ingrese su consulta SQL en el campo designado a continuación.");
+        lbl1.setText("Proporcione su consulta SQL en el campo correspondiente de color amarillo para que pueda realizar el análisis solicitado. ");
         lbl1.setToolTipText("");
         lbl1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
 
         lbl2.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
-        lbl2.setText("Después, por favor proceda a presionar el botón \"Realizar Analisis\".");
+        lbl2.setText("Una vez ingresada su consulta, presione el botón \"Realizar análisis\" para que pueda procesar su solicitud.");
         lbl2.setToolTipText("");
         lbl2.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
 
-        btnAnalizar.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
+        btnAnalizar.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         btnAnalizar.setText("Realizar Analisis");
         btnAnalizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -433,8 +448,8 @@ public final class ScannerDML extends javax.swing.JFrame {
             }
         });
 
-        btnReiniciar.setFont(new java.awt.Font("Century Gothic", 0, 14)); // NOI18N
-        btnReiniciar.setText("Reiniciar");
+        btnReiniciar.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        btnReiniciar.setText("Nueva consulta");
         btnReiniciar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReiniciarActionPerformed(evt);
@@ -544,10 +559,10 @@ public final class ScannerDML extends javax.swing.JFrame {
         lblTablaLexica.setText("Tabla lexica");
 
         lblTablaIdents.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
-        lblTablaIdents.setText("Identificadores");
+        lblTablaIdents.setText("Tabla de Identificadores");
 
         lblTablaConsts.setFont(new java.awt.Font("Arial", 0, 17)); // NOI18N
-        lblTablaConsts.setText("Constantes");
+        lblTablaConsts.setText("Tabla de Constantes");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -558,9 +573,9 @@ public final class ScannerDML extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jspTextEntrada)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jlbErrores, javax.swing.GroupLayout.DEFAULT_SIZE, 299, Short.MAX_VALUE)
+                        .addComponent(jlbErrores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jspSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 908, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jspSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 1063, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6))
@@ -574,20 +589,20 @@ public final class ScannerDML extends javax.swing.JFrame {
                         .addComponent(btnReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(37, 37, 37))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jspLex, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jspLex, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jspIdents, javax.swing.GroupLayout.PREFERRED_SIZE, 405, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jspIdents, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jspConst)
+                        .addComponent(jspConst, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
-                .addGap(143, 143, 143)
+                .addGap(152, 152, 152)
                 .addComponent(lblTablaLexica)
-                .addGap(327, 327, 327)
-                .addComponent(lblTablaIdents)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblTablaIdents)
+                .addGap(315, 315, 315)
                 .addComponent(lblTablaConsts)
-                .addGap(241, 241, 241))
+                .addGap(142, 142, 142))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -599,22 +614,22 @@ public final class ScannerDML extends javax.swing.JFrame {
                             .addComponent(btnAnalizar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnReiniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(21, 21, 21)
                         .addComponent(lbl1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lbl2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jspTextEntrada, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jspTextEntrada, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTablaIdents)
-                    .addComponent(lblTablaConsts)
-                    .addComponent(lblTablaLexica))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jspIdents, javax.swing.GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-                    .addComponent(jspConst, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jspLex, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(lblTablaLexica)
+                    .addComponent(lblTablaConsts))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jspConst, javax.swing.GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+                    .addComponent(jspIdents, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jspLex, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jspSalida, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)

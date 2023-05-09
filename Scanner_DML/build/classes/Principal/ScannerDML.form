@@ -28,9 +28,9 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jspTextEntrada" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="jlbErrores" pref="299" max="32767" attributes="0"/>
+                      <Component id="jlbErrores" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jspSalida" min="-2" pref="908" max="-2" attributes="0"/>
+                      <Component id="jspSalida" min="-2" pref="1063" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnSalir" min="-2" pref="117" max="-2" attributes="0"/>
                       <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
@@ -46,24 +46,24 @@
                       <Component id="btnReiniciar" min="-2" pref="139" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="jspLex" min="-2" pref="392" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jspLex" min="-2" pref="406" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jspIdents" min="-2" pref="405" max="-2" attributes="0"/>
+                      <Component id="jspIdents" pref="0" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jspConst" max="32767" attributes="0"/>
+                      <Component id="jspConst" min="-2" pref="468" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="143" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
               <Component id="lblTablaLexica" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="327" max="-2" attributes="0"/>
-              <Component id="lblTablaIdents" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="lblTablaIdents" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="315" max="-2" attributes="0"/>
               <Component id="lblTablaConsts" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="241" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="142" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -79,25 +79,25 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       <Component id="lbl1" min="-2" pref="39" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="lbl2" min="-2" pref="43" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jspTextEntrada" min="-2" pref="228" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="jspTextEntrada" pref="235" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="lblTablaIdents" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblTablaConsts" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="lblTablaLexica" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblTablaConsts" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jspIdents" pref="361" max="32767" attributes="0"/>
-                  <Component id="jspConst" pref="0" max="32767" attributes="0"/>
-                  <Component id="jspLex" alignment="1" pref="0" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Component id="jspConst" pref="414" max="32767" attributes="0"/>
+                  <Component id="jspIdents" alignment="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="jspLex" alignment="0" pref="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -140,7 +140,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="17" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value=" Por favor, ingrese su consulta SQL en el campo designado a continuaci&#xf3;n."/>
+        <Property name="text" type="java.lang.String" value="Proporcione su consulta SQL en el campo correspondiente de color amarillo para que pueda realizar el an&#xe1;lisis solicitado. "/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="debugGraphicsOptions" type="int" value="-1"/>
       </Properties>
@@ -150,7 +150,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="17" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Despu&#xe9;s, por favor proceda a presionar el bot&#xf3;n &quot;Realizar Analisis&quot;."/>
+        <Property name="text" type="java.lang.String" value="Una vez ingresada su consulta, presione el bot&#xf3;n &quot;Realizar an&#xe1;lisis&quot; para que pueda procesar su solicitud."/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
         <Property name="debugGraphicsOptions" type="int" value="-1"/>
       </Properties>
@@ -158,7 +158,7 @@
     <Component class="javax.swing.JButton" name="btnAnalizar">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Century Gothic" size="14" style="0"/>
+          <Font name="Arial" size="16" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Realizar Analisis"/>
       </Properties>
@@ -169,9 +169,9 @@
     <Component class="javax.swing.JButton" name="btnReiniciar">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Century Gothic" size="14" style="0"/>
+          <Font name="Arial" size="16" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Reiniciar"/>
+        <Property name="text" type="java.lang.String" value="Nueva consulta"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnReiniciarActionPerformed"/>
@@ -400,7 +400,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="17" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Identificadores"/>
+        <Property name="text" type="java.lang.String" value="Tabla de Identificadores"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblTablaConsts">
@@ -408,7 +408,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Arial" size="17" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Constantes"/>
+        <Property name="text" type="java.lang.String" value="Tabla de Constantes"/>
       </Properties>
     </Component>
   </SubComponents>
